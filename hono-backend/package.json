@@ -1,0 +1,32 @@
+{
+  "name": "hono-learning",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typeorm": "typeorm-ts-node-esm"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.14",
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^2.10.0",
+    "dotenv": "^17.4.2",
+    "hono": "^4.12.18",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "pg": "^8.20.0",
+    "reflect-metadata": "^0.2.2",
+    "streamifier": "^0.1.1",
+    "typeorm": "^0.3.29"
+  },
+  "devDependencies": {
+    "@types/multer": "^2.1.0",
+    "@types/node": "^20.19.40",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.7.1",
+    "typeorm-ts-node-esm": "^0.3.20",
+    "typescript": "^5.8.3"
+  }
+}
