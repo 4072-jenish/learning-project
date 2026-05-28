@@ -1,37 +1,44 @@
-  import { Module } from '@nestjs/common';
-  import { AppController } from './app.controller';
-  import { AppService } from './app.service';
-  import { UsersModule } from './users/users.module';
-  import { TypeOrmModule } from '@nestjs/typeorm';
-  import { AuthModule } from './auth/auth.module';
-import { BlogsModule } from './blogs/blogs.module';
-import { UploadModule } from './upload/upload.module';
-import { ConfigModule } from '@nestjs/config';
-import { AdminModule } from './admin/admin.module';
+import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
-  @Module({
-    imports: [
-      UsersModule,
-      ConfigModule.forRoot({
-        isGlobal: true,
-      }),
-      TypeOrmModule.forRoot({
-        type: 'postgres',
-        host: 'localhost',
-        port: 5432,
-        username: 'jenish',
-        password: 'JENISH166',
-        database: 'nest_learning',
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { UsersModule } from "./users/users.module";
+import { AuthModule } from "./auth/auth.module";
+import { BlogsModule } from "./blogs/blogs.module";
+import { UploadModule } from "./upload/upload.module";
+import { AdminModule } from "./admin/admin.module";
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: "postgres",
+        url: configService.get<string>("DATABASE_URL"),
+
         autoLoadEntities: true,
         synchronize: true,
-      }),
 
-      AuthModule,
-      BlogsModule,
-      UploadModule,
-      AdminModule,
-    ],
-    controllers: [AppController],
-    providers: [AppService],
-  })
-  export class AppModule {}
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      }),
+    }),
+
+    UsersModule,
+    AuthModule,
+    BlogsModule,
+    UploadModule,
+    AdminModule,
+  ],
+
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
