@@ -14,8 +14,8 @@ async function bootstrap() {
   app.enableCors(
     {
       origin: [
-        "http://localhost:5173",
-        "http://localhost:3000"
+        "https://admin-panel-blog-managment.vercel.app/",
+        "https://blog-managment-project.vercel.app/"
       ],
       Credential: true,
     },
