@@ -23,7 +23,7 @@ export default function HomePage() {
             <Sparkles className="w-16 h-16 text-blue-500" />
           </motion.div>
           <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient">
-            Hono Blog App
+            Blog App
           </h1>
         </motion.div>
 
