@@ -14,10 +14,10 @@ async function bootstrap() {
   app.enableCors(
     {
       origin: [
-        "https://admin-panel-blog-managment.vercel.app/",
-        "https://blog-managment-project.vercel.app/"
+        "https://admin-panel-blog-managment.vercel.app",
+        "https://blog-managment-project.vercel.app"
       ],
-      Credentials: true,
+      credentials: true,
     },
 )
 
