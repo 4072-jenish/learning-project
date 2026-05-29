@@ -17,7 +17,7 @@ async function bootstrap() {
         "https://admin-panel-blog-managment.vercel.app/",
         "https://blog-managment-project.vercel.app/"
       ],
-      Credential: true,
+      Credentials: true,
     },
 )
 
