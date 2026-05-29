@@ -8,8 +8,9 @@ interface ProtectedLayoutProps {
 }
 
 const ProtectedLayout: FC<ProtectedLayoutProps> = ({ children }) => {
-  const auth = useSelector((state: RootState) => state.auth);
-  const isAuthenticated = auth.isAuthenticated || !!auth.token || !!localStorage.getItem("token");
+  const tokenFromRedux = useSelector( (state: RootState) => state.auth.token );
+  const tokenFromStorage = localStorage.getItem("token");
+  const isAuthenticated = Boolean(tokenFromRedux || tokenFromStorage);
 
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
