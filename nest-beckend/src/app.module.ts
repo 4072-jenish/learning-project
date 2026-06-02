@@ -9,6 +9,9 @@ import { AuthModule } from "./auth/auth.module";
 import { BlogsModule } from "./blogs/blogs.module";
 import { UploadModule } from "./upload/upload.module";
 import { AdminModule } from "./admin/admin.module";
+import { LikesModule } from './likes/likes.module';
+import { CommentsModule } from './comments/comments.module';
+import { SharesModule } from './shares/shares.module';
 
 @Module({
   imports: [
@@ -36,6 +39,9 @@ import { AdminModule } from "./admin/admin.module";
     BlogsModule,
     UploadModule,
     AdminModule,
+    LikesModule,
+    CommentsModule,
+    SharesModule,
   ],
 
   controllers: [AppController],

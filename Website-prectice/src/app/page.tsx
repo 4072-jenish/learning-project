@@ -33,7 +33,7 @@ export default function HomePage() {
           transition={{ delay: 0.3 }}
           className="text-gray-600 max-w-2xl text-lg mb-8"
         >
-          Fullstack blog platform built using Hono, TypeORM, PostgreSQL, Next.js, Redux Toolkit, and Cloudinary.
+          Fullstack blog platform built using NestJS, TypeORM, PostgreSQL, Next.js, Redux Toolkit, and Cloudinary.
         </motion.p>
 
         <motion.div

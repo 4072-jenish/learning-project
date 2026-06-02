@@ -8,6 +8,10 @@ import {
 } from 'typeorm';
 import type { Relation } from "typeorm"
 import { User } from 'src/users/entities/user.entity';
+import { Like } from 'src/likes/entities/like.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
+import { Share } from 'src/shares/entities/share.entity';
+import { OneToMany } from 'typeorm';
 
 export enum BlogStatus {
   PENDING = "pending",
@@ -58,4 +62,13 @@ export class Blog {
   status!: BlogStatus;
   @UpdateDateColumn()
   updatedAt!: Date;
+
+  @OneToMany(() => Like, (like) => like.blog)
+  likes!: Relation<Like[]>;
+
+  @OneToMany(() => Comment, (comment) => comment.blog)
+  comments!: Relation<Comment[]>;
+
+  @OneToMany(() => Share, (share) => share.blog)
+  shares!: Relation<Share[]>;
 }

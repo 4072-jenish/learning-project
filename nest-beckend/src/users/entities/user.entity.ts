@@ -7,6 +7,9 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import type {Relation} from "typeorm";
+import { Like } from 'src/likes/entities/like.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
+import { Share } from 'src/shares/entities/share.entity';
 
 export enum Role {
   USER = 'user',
@@ -71,4 +74,13 @@ export class User {
     (blog: Relation<Blog>) => blog.author,
   )
   blogs!: Relation<Blog[]>;
+
+  @OneToMany(() => Like, (like) => like.user)
+  likes!: Relation<Like[]>;
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments!: Relation<Comment[]>;
+
+  @OneToMany(() => Share, (share) => share.user)
+  shares!: Relation<Share[]>;
 }
