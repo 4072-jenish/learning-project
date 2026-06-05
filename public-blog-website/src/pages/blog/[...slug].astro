@@ -6,6 +6,7 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import { SITE_TITLE } from "../../consts";
+import { MessageCircle, Share, Heart } from "@lucide/astro";
 
 const { slug } = Astro.params;
 
@@ -19,6 +20,9 @@ const data = await res.json();
 const blog = data.blog || data;
 const heroImage = blog.imageUrl || "";
 const safeDate = blog.updatedAt || blog.createdAt || new Date().toISOString();
+const likesCount = blog.likesCount ?? blog.likes?.length ?? 0;
+const commentsCount = blog.commentsCount ?? blog.comments?.length ?? 0;
+const sharesCount = blog.sharesCount ?? blog.shares?.length ?? 0;
 ---
 
 <!doctype html>
@@ -29,214 +33,93 @@ const safeDate = blog.updatedAt || blog.createdAt || new Date().toISOString();
 			description={blog.content?.slice(0, 150)}
 		/>
 
-		<style>
-			.hero {
-				min-height: 85vh;
-				background-image:
-					linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.6)),
-					var(--hero-image);
-				background-size: cover;
-				background-position: center;
-				background-attachment: fixed;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				text-align: center;
-				padding: 6rem 1.5rem;
-				color: white;
-			}
-
-			.hero-inner {
-				max-width: 950px;
-			}
-
-			.breadcrumb {
-				font-size: 0.85rem;
-				font-weight: 800;
-				letter-spacing: 0.08em;
-				text-transform: uppercase;
-				margin-bottom: 1.5rem;
-				opacity: 0.9;
-			}
-
-			h1 {
-				margin: 0;
-				font-size: clamp(2.5rem, 7vw, 5.4rem);
-				line-height: 1.02;
-				letter-spacing: -0.06em;
-				color: white;
-			}
-
-			.meta {
-				margin-top: 1.5rem;
-				font-size: 0.85rem;
-				font-weight: 800;
-				text-transform: uppercase;
-				opacity: 0.95;
-			}
-
-			main {
-				/* background: white; */
-			}
-
-			.article-wrap {
-				max-width: 760px;
-				margin: 0 auto;
-				padding: 4.5rem 1.5rem;
-			}
-
-			.intro {
-				font-size: 1.35rem;
-				line-height: 1.65;
-				font-weight: 800;
-				color: rgb(var(--black));
-				margin-bottom: 2.5rem;
-			}
-
-			.article-content {
-				font-size: 1.08rem;
-				line-height: 1.85;
-				color: rgb(var(--black));
-				white-space: pre-line;
-			}
-
-			.article-content::first-line {
-				font-weight: 700;
-			}
-
-			.article-actions {
-				position: sticky;
-				bottom: 1rem;
-				max-width: 1100px;
-				margin: 0 auto 1rem;
-				padding: 0 1rem;
-			}
-
-			.action-bar {
-				display: grid;
-				grid-template-columns: repeat(3, 1fr);
-				gap: 1px;
-				background: rgba(255, 202, 45, 0.95);
-				border-radius: 12px;
-				overflow: hidden;
-				box-shadow: var(--box-shadow);
-			}
-
-			.action-bar button,
-			.action-bar a {
-				border: 0;
-				background: transparent;
-				padding: 1rem;
-				font-weight: 800;
-				color: rgb(var(--black));
-				text-align: center;
-				text-decoration: none;
-				cursor: pointer;
-			}
-
-			.action-bar button:hover,
-			.action-bar a:hover {
-				background: rgba(255, 255, 255, 0.35);
-			}
-
-			@media (max-width: 720px) {
-				.hero {
-					min-height: 70vh;
-					background-attachment: scroll;
-				}
-
-				.article-wrap {
-					padding: 3rem 1.2rem;
-				}
-
-				.intro {
-					font-size: 1.15rem;
-				}
-
-				.action-bar {
-					grid-template-columns: 1fr;
-				}
-			}
+		<style is:global>
+			@import "../../styles/blog-action.css";
 		</style>
 	</head>
 
 	<body>
 		<Header />
 
-		<section class="hero" style={`--hero-image: url('${heroImage}')`}>
+		<section
+			class={`hero ${heroImage ? "has-image" : ""}`}
+			style={heroImage ? `--hero-image: url('${heroImage}')` : ""}
+		>
 			<div class="hero-inner">
-				<div class="breadcrumb">Home › Blogs › Article</div>
+				<div class="breadcrumb">
+					<a href="/">Home</a> / <a href="/blog">Blog</a> / Article
+				</div>
 
 				<h1>{blog.title}</h1>
 
 				<div class="meta">
-					Updated —<FormattedDate date={new Date(safeDate)} />
+					<span class="category-tag">Article</span>
+					<span>
+						<time datetime={safeDate}>
+							<FormattedDate date={new Date(safeDate)} />
+						</time>
+					</span>
 				</div>
 			</div>
 		</section>
 
 		<main>
-			<article class="article-wrap">
-				<p class="intro">
-					{blog.content?.slice(0, 280)}...
-				</p>
-
-				<div class="article-content">
-					{blog.content}
-				</div>
+			<article class="article-content">
+				{blog.content}
 			</article>
 
-			<div class="article-actions">
-				<div class="action-bar">
-					<button
-						id="likeBtn"
-						data-blog-id={blog.id}
-						data-liked="false"
-					>
-						❤️ Like
-					</button>
-					<a href="#comments">💬 Comments</a>
-					<button>🔗 Share</button>
+			<div class="author-section">
+				<div class="author-avatar">
+					{blog.author?.name?.charAt(0)?.toUpperCase() || "A"}
+				</div>
+
+				<div class="author-info">
+					<h3>{blog.author?.name || "About the Author"}</h3>
+					<p>{blog.author?.email || "Passionate writer sharing insights."}</p>
 				</div>
 			</div>
+			<div class="action-bar">
+				<button id="likeBtn" class="action-btn" data-blog-id={blog.id}>
+					<Heart/> <span id="likeCount">{likesCount}</span>
+					<span>Likes</span>
+				</button>
+
+				<button id="commentBtn" class="action-btn" data-blog-id={blog.id}>
+					<MessageCircle/> <span id="commentCount">{commentsCount}</span>
+					<span>Comments</span>
+				</button>
+
+				<button id="shareBtn" class="action-btn" data-blog-id={blog.id}>
+					<Share/> <span id="shareCount">{sharesCount}</span>
+					<span>Share</span>
+				</button>
+			</div>
 		</main>
+		<div id="commentModal" class="comment-modal">
+			<div class="comment-box">
+				<button id="closeCommentModal" class="close-btn">✕</button>
+
+				<h2>Discussion</h2>
+
+				<div id="commentsList" class="comments-list">
+					<p style="color: #888; text-align: center;">Loading comments...</p>
+				</div>
+
+				<form id="commentForm">
+					<textarea
+						id="commentText"
+						placeholder="Share your thoughts..."
+						rows="3"
+						required></textarea>
+
+					<button type="submit">Post Comment</button>
+				</form>
+			</div>
+		</div>
 
 		<Footer />
 		<script>
-			import { toast } from "sonner";
-			const likeBtn = document.getElementById("likeBtn");
-
-			likeBtn?.addEventListener("click", async () => {
-				const blogId = likeBtn.getAttribute("data-blog-id");
-				const token = localStorage.getItem("token");
-
-				if (!token) {
-					toast.warning("Please login first");
-					window.location.href = "/auth/login";
-					return;
-				}
-
-				const res = await fetch(
-					`${import.meta.env.PUBLIC_API_BASE_URL}likes/${blogId}/toggle`,
-					{
-						method: "POST",
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					},
-				);
-
-				const data = await res.json();
-
-				if (!res.ok) {
-					toast.error(data.message || "Something went wrong");
-					return;
-				}
-
-				likeBtn.textContent = data.liked
-					? `❤️ Liked (${data.likesCount})`
-					: `🤍 Like (${data.likesCount})`;
-			});
+			import "../../scripts/blog-action.ts";
 		</script>
 	</body>
 </html>

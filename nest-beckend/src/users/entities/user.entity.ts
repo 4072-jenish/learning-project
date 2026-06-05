@@ -5,6 +5,7 @@ import {
   Column,
   OneToMany,
   CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import type {Relation} from "typeorm";
 import { Like } from 'src/likes/entities/like.entity';
@@ -66,7 +67,7 @@ export class User {
   @CreateDateColumn()
   createdAt!: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updatedAt!: Date;
 
   @OneToMany(

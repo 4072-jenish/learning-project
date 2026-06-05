@@ -18,9 +18,7 @@ export class BlogsService {
 
   async create( body: CreateBlogDto, user: any ) {
     const existingBlog = await this.blogRepository.findOne({
-        where: {
-          title: body.title,
-        },
+        where: { title: body.title },
       });
     if (existingBlog) {
       throw new BadRequestException( 'Blog already exists', );
@@ -39,13 +37,9 @@ export class BlogsService {
 
   async findAll() {
     const blogs = await this.blogRepository.find({
-        where: {
-          status: BlogStatus.APPROVED,
-        },
+        where: { status: BlogStatus.APPROVED },
         relations: ['author'],
-        order: {
-          createdAt: 'DESC',
-        },
+        order: { createdAt: 'DESC' },
       });
     return {
       success: true,
@@ -69,9 +63,7 @@ export class BlogsService {
 
   async findRejectedAll() {
     const blogs = await this.blogRepository.find({
-        where: {
-          status: BlogStatus.REJECTED,
-        },
+        where: { status: BlogStatus.REJECTED },
         relations: ['author'],
         order: {
           createdAt: 'DESC',
@@ -86,9 +78,7 @@ export class BlogsService {
 
   async findAprovedAll() {
     const blogs = await this.blogRepository.find({
-      where: {
-        status: BlogStatus.APPROVED,
-      },
+      where: { status: BlogStatus.APPROVED },
       relations: ['author'],
       order: {
         createdAt: 'DESC',
@@ -103,9 +93,7 @@ export class BlogsService {
 
   async findPendingAll() {
     const blogs = await this.blogRepository.find({
-      where: {
-        status: BlogStatus.PENDING,
-      },
+      where: { status: BlogStatus.PENDING },
       relations: ['author'],
       order: {
         createdAt: 'DESC',
@@ -121,15 +109,21 @@ export class BlogsService {
   async findOne(id: number) {
     const blog = await this.blogRepository.findOne({
         where: { id },
-        relations: ['author'],
+        relations: {
+          author: true,
+          comments: true,
+          likes: true,
+          shares: true,
+        },
       });
     if (!blog) {
-      throw new NotFoundException( 'Blog not found', );
+      throw new NotFoundException('Blog not found',);
     }
-
     return {
-      success: true,
-      blog,
+      ...blog,
+      commentsCount: blog.comments.length,
+      likesCount: blog.likes.length,
+      sharesCount: blog.shares.length,
     };
   }
 
@@ -163,22 +157,18 @@ export class BlogsService {
   }
 
   async remove(id: number, user: any) {
-    const blog =
-      await this.blogRepository.findOne({
+    const blog = await this.blogRepository.findOne({
         where: { id },
         relations: ['author'],
-      });
-
+    });
     if (!blog) {
       throw new NotFoundException( 'Blog not found', );
     }
     const isOwner = blog.author.id === user.id;
     const isAdmin = user.role === 'ADMIN';
-
     if (!isOwner && !isAdmin) {
       throw new ForbiddenException( 'Forbidden', );
     }
-
     await this.blogRepository.remove(blog);
     return {
       success: true,
@@ -189,9 +179,7 @@ export class BlogsService {
   async getMyBlogs(user: any) {
     const blogs = await this.blogRepository.find({
       where: {
-        author: {
-          id: user.id,
-        }
+        author: { id: user.id }
       },
       relations: ['author'],
       order: {
@@ -205,8 +193,9 @@ export class BlogsService {
   }
 
   async updateStatus(id: number, status: BlogStatus) {
-    const blog = await this.blogRepository.findOne({ where: { id } });
-
+    const blog = await this.blogRepository.findOne({ 
+      where: { id } 
+    });
     if (!blog) {
       throw new NotFoundException("Blog not found");
     }
@@ -216,9 +205,7 @@ export class BlogsService {
 
   async searchBlog(title: string) {
     const blogs = await this.blogRepository.find({
-      where: {
-        title: ILike(`%${title}%`),
-      },
+      where: { title: ILike(`%${title}%`) },
     });
     if (blogs.length === 0) {
       throw new NotFoundException("Blogs not found");

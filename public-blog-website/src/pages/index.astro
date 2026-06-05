@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { Book, Heart,  MessageCircle, Share, Shield, Zap } from "@lucide/astro";
 ---
 
 <!doctype html>
@@ -186,32 +187,32 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 			<section class="grid">
 				<div class="feature">
-					<h5>📖 Read</h5>
+					<h5><Book/> Read</h5>
 					<p>Browse public blogs with clean layouts and fast loading pages.</p>
 				</div>
 
 				<div class="feature">
-					<h5>❤️ React</h5>
+					<h5><Heart/> React</h5>
 					<p>Like blogs and show writers which articles people enjoy most.</p>
 				</div>
 
 				<div class="feature">
-					<h5>💬 Discuss</h5>
+					<h5><MessageCircle/> Discuss</h5>
 					<p>Comment on posts and join simple conversations around ideas.</p>
 				</div>
 
 				<div class="feature">
-					<h5>🔗 Share</h5>
+					<h5><Share/> Share</h5>
 					<p>Share articles through WhatsApp, copy link, or native browser sharing.</p>
 				</div>
 
 				<div class="feature">
-					<h5>🛡️ Curated</h5>
+					<h5><Shield/> Curated</h5>
 					<p>Blogs are moderated before going public, keeping the feed cleaner.</p>
 				</div>
 
 				<div class="feature">
-					<h5>⚡ Fast</h5>
+					<h5><Zap/> Fast</h5>
 					<p>Built with Astro for a lightweight public reading experience.</p>
 				</div>
 			</section>
