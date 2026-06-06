@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const api = axios.create({
-    baseURL: "https://learning-project-279l.onrender.com"
+    baseURL: import.meta.env.PUBLIC_API_BASE_URL,
 })
 
 api.interceptors.request.use((config) => {
