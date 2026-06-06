@@ -39,7 +39,7 @@
 
 ------------------------------------------------------------------------
 
-## 🚧 Pending Tasks (Assign These First)
+## 🚧 Pending Tasks
 
 ### Authentication
 
@@ -58,9 +58,9 @@
 
 ### Blog Experience
 
--   Show Like Count on Blog Cards
--   Show Comment Count on Blog Cards
--   Show Share Count on Blog Cards
+~   Show Like Count on Blog Cards
+~   Show Comment Count on Blog Cards
+~   Show Share Count on Blog Cards
 -   Blog Search
 -   Pagination
 -   Loading States
@@ -74,8 +74,8 @@
 
 ### Shares
 
--   Share Count Synchronization
--   Platform-specific Share Tracking
+~   Share Count Synchronization
+~   Platform-specific Share Tracking
 
 ------------------------------------------------------------------------
 
@@ -124,7 +124,7 @@
 
 # Suggested Junior Task Order
 
-1.  Email Verification
+1.  Email Verification 
 2.  Forgot Password
 3.  Reset Password
 4.  Blog Search
