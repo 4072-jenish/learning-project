@@ -3,13 +3,12 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 
 export default defineConfig({
-    adapter: node({
-        mode: 'standalone',
-    }),
+    output: "server",
+    adapter: vercel(),
     site: 'https://example.com',
     integrations: [mdx(), sitemap(), react()],
     fonts: [
