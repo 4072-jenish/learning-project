@@ -9,6 +9,14 @@ import {
 import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto } from './dto/auth-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { IsEmail } from 'class-validator';
+import { VerifyOtpDto } from './dto/verify-otp.dto';
+
+export class SendOtpDto {
+  @IsEmail()
+  email!: string;
+}
+
 
 @Controller('auth')
 export class AuthController {
@@ -30,5 +38,14 @@ export class AuthController {
       user: req.user,
     };
   }
-}
 
+  @Post('sendOtp')
+  sendOtp(@Body() body: SendOtpDto) {
+    return this.authService.sendOtpEmail(body.email);
+  }
+
+  @Post('verifyOtp')
+  verifyOtp(@Body() body: VerifyOtpDto) {
+    return this.authService.verifyOtp(body);
+  }
+}

@@ -75,6 +75,15 @@ export class User {
     (blog: Relation<Blog>) => blog.author,
   )
   blogs!: Relation<Blog[]>;
+  
+  @Column({ nullable: true })
+  emailOtp!: string;
+
+  @Column({ nullable: true })
+  emailOtpExpiresAt!: Date;
+
+  @Column({ default: false })
+  isEmailVerified!: boolean;
 
   @OneToMany(() => Like, (like) => like.user)
   likes!: Relation<Like[]>;

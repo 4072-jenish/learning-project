@@ -6,15 +6,17 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import { SITE_TITLE } from "../../consts";
-import { MessageCircle, Share, Heart } from "@lucide/astro";
-
+import { MessageCircle, Share2, Heart } from "@lucide/astro";
 const { slug } = Astro.params;
 
-const res = await fetch(`${import.meta.env.PUBLIC_API_BASE_URL}blog/${slug}`);
+const blogId = Array.isArray(slug) ? slug[0] : slug;
+const res = await fetch(
+  `${import.meta.env.PUBLIC_API_BASE_URL}blog/${blogId}`
+);
 
 if (!res.ok) {
 	throw new Error("Blog not found");
-}
+}	
 
 const data = await res.json();
 const blog = data.blog || data;
@@ -90,7 +92,7 @@ const sharesCount = blog.sharesCount ?? blog.shares?.length ?? 0;
 				</button>
 
 				<button id="shareBtn" class="action-btn" data-blog-id={blog.id}>
-					<Share/> <span id="shareCount">{sharesCount}</span>
+					<Share2/> <span id="shareCount">{sharesCount}</span>
 					<span>Share</span>
 				</button>
 			</div>
