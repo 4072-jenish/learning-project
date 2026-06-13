@@ -8,8 +8,10 @@ import react from '@astrojs/react';
 
 export default defineConfig({
     output: "server",
-    adapter: vercel(),
-    site: 'https://example.com',
+    adapter: vercel({
+        webAnalytics: { enabled : true}
+    }),
+    site: 'https://public-website-topaz-kappa.vercel.app/',
     integrations: [mdx(), sitemap(), react()],
     fonts: [
         {
@@ -35,5 +37,4 @@ export default defineConfig({
             },
         },
     ],
-    output: 'server',
 });

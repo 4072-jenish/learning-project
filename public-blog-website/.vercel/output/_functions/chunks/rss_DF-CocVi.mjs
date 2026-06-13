@@ -1,8 +1,8 @@
 import 'html-escaper';
 import { Traverse } from 'neotraverse/modern';
 import * as z from 'zod/v4';
-import { g as generateCspDigest, s as spreadAttributes, u as unescapeHTML, c as renderTemplate, h as removeBase, a as isRemotePath, A as AstroError, U as UnknownContentCollectionError } from './entrypoint_jya5aDw9.mjs';
-import { c as createComponent, V as VALID_INPUT_FORMATS } from './consts_CW8miFli.mjs';
+import { g as generateCspDigest, s as spreadAttributes, u as unescapeHTML, c as renderTemplate, h as removeBase, a as isRemotePath, A as AstroError, U as UnknownContentCollectionError } from './entrypoint_BtIo6Lzg.mjs';
+import { c as createComponent, V as VALID_INPUT_FORMATS } from './consts_HDQ_ydgt.mjs';
 import 'clsx';
 import 'piccolore';
 import * as devalue from 'devalue';
@@ -100,7 +100,7 @@ class ImmutableDataStore {
    */
   static async fromModule() {
     try {
-      const data = await import('./_astro_data-layer-content_BlP3Npa5.mjs');
+      const data = await import('./_astro_data-layer-content_BcuChSRT.mjs');
       if (data.default instanceof Map) {
         return ImmutableDataStore.fromMap(data.default);
       }
