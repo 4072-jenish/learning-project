@@ -2,39 +2,37 @@
 
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import react from '@astrojs/react';
 import { defineConfig, fontProviders } from 'astro/config';
 import vercel from '@astrojs/vercel';
-import react from '@astrojs/react';
 
 export default defineConfig({
-    output: "server",
-    adapter: vercel({
-        webAnalytics: { enabled : true}
-    }),
-    site: 'https://public-website-topaz-kappa.vercel.app/',
-    integrations: [mdx(), sitemap(), react()],
-    fonts: [
-        {
-            provider: fontProviders.local(),
-            name: 'Atkinson',
-            cssVariable: '--font-atkinson',
-            fallbacks: ['sans-serif'],
-            options: {
-                variants: [
-                    {
-                        src: ['./src/assets/fonts/atkinson-regular.woff'],
-                        weight: 400,
-                        style: 'normal',
-                        display: 'swap',
-                    },
-                    {
-                        src: ['./src/assets/fonts/atkinson-bold.woff'],
-                        weight: 700,
-                        style: 'normal',
-                        display: 'swap',
-                    },
-                ],
-            },
-        },
-    ],
+	output: 'server',
+	adapter: vercel(),
+	site: 'https://public-website-topaz-kappa.vercel.app',
+	integrations: [mdx(), sitemap(), react()],
+	fonts: [
+		{
+			provider: fontProviders.local(),
+			name: 'Atkinson',
+			cssVariable: '--font-atkinson',
+			fallbacks: ['sans-serif'],
+			options: {
+				variants: [
+					{
+						src: ['./src/assets/fonts/atkinson-regular.woff'],
+						weight: 400,
+						style: 'normal',
+						display: 'swap',
+					},
+					{
+						src: ['./src/assets/fonts/atkinson-bold.woff'],
+						weight: 700,
+						style: 'normal',
+						display: 'swap',
+					},
+				],
+			},
+		},
+	],
 });

@@ -1,8 +1,8 @@
 import 'html-escaper';
 import { Traverse } from 'neotraverse/modern';
 import * as z from 'zod/v4';
-import { g as generateCspDigest, s as spreadAttributes, u as unescapeHTML, c as renderTemplate, h as removeBase, a as isRemotePath, A as AstroError, U as UnknownContentCollectionError } from './entrypoint_BtIo6Lzg.mjs';
-import { c as createComponent, V as VALID_INPUT_FORMATS } from './consts_HDQ_ydgt.mjs';
+import { g as generateCspDigest, s as spreadAttributes, u as unescapeHTML, c as renderTemplate, h as removeBase, a as isRemotePath, A as AstroError, U as UnknownContentCollectionError } from './entrypoint_-Gqi4B_L.mjs';
+import { c as createComponent, V as VALID_INPUT_FORMATS } from './consts_CITKBvpJ.mjs';
 import 'clsx';
 import 'piccolore';
 import * as devalue from 'devalue';
@@ -100,7 +100,7 @@ class ImmutableDataStore {
    */
   static async fromModule() {
     try {
-      const data = await import('./_astro_data-layer-content_BcuChSRT.mjs');
+      const data = await import('./_astro_data-layer-content_B1M8m6dV.mjs');
       if (data.default instanceof Map) {
         return ImmutableDataStore.fromMap(data.default);
       }
@@ -149,7 +149,7 @@ function createGetCollection({
     const hasFilter = typeof filter === "function";
     const store = await globalDataStore.get();
     if (store.hasCollection(collection)) {
-      const { default: imageAssetMap } = await import('./content-assets_DloNRoa4.mjs');
+      const { default: imageAssetMap } = await import('./content-assets_DleWbedO.mjs');
       const result = [];
       for (const rawEntry of store.values(collection)) {
         const data = updateImageReferencesInData(rawEntry.data, rawEntry.filePath, imageAssetMap);
