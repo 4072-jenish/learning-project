@@ -15,6 +15,9 @@ async function bootstrap() {
     {
       origin: [
         "http://localhost:4321",
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "https://public-blog-web.vercel.app/",
         "https://adminpanel-blogmenegment.vercel.app",
         "https://blog-managment-project.vercel.app"
       ],
