@@ -1,0 +1,231 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { Book, Heart,  MessageCircle, Share, Shield, Zap } from "@lucide/astro";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				max-width: 1100px;
+				margin: 0 auto;
+				padding: 4rem 1.5rem;
+			}
+
+			.hero {
+				display: grid;
+				grid-template-columns: 1.2fr 0.8fr;
+				gap: 3rem;
+				align-items: center;
+				padding: 4rem 0;
+			}
+
+			.badge {
+				display: inline-block;
+				margin-bottom: 1rem;
+				padding: 0.45rem 0.8rem;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 999px;
+				color: rgb(var(--accent));
+				font-size: 0.9rem;
+				font-weight: 700;
+			}
+
+			h1 {
+				margin: 0;
+				font-size: clamp(2.5rem, 6vw, 5rem);
+				line-height: 0.95;
+				letter-spacing: -0.08em;
+			}
+
+			.hero p {
+				margin-top: 1.5rem;
+				max-width: 620px;
+				font-size: 1.15rem;
+				color: rgb(var(--gray));
+			}
+
+			.actions {
+				display: flex;
+				gap: 1rem;
+				margin-top: 2rem;
+				flex-wrap: wrap;
+			}
+
+			.btn {
+				display: inline-block;
+				padding: 0.9rem 1.2rem;
+				border-radius: 12px;
+				font-weight: 700;
+				text-decoration: none;
+			}
+
+			.btn.primary {
+				background: rgb(var(--accent));
+				color: white;
+			}
+
+			.btn.secondary {
+				border: 1px solid rgb(var(--gray-light));
+				color: rgb(var(--black));
+			}
+
+			.preview-card {
+				padding: 1.5rem;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 24px;
+				box-shadow: var(--box-shadow);
+				background: white;
+			}
+
+			.preview-card .image {
+				height: 180px;
+				border-radius: 18px;
+				background:
+					radial-gradient(circle at top left, rgba(var(--accent), 0.35), transparent 35%),
+					linear-gradient(135deg, rgb(var(--gray-light)), white);
+				margin-bottom: 1rem;
+			}
+
+			.preview-card h3 {
+				margin: 0 0 0.5rem;
+			}
+
+			.preview-card p {
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1rem;
+				margin-top: 3rem;
+			}
+
+			.feature {
+				padding: 1.3rem;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 18px;
+				background: rgba(255, 255, 255, 0.65);
+			}
+
+			.feature h3 {
+				margin: 0 0 0.5rem;
+			}
+
+			.feature p {
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+
+			.cta {
+				margin-top: 4rem;
+				padding: 3rem;
+				border-radius: 28px;
+				text-align: center;
+				background: rgb(var(--black));
+				color: white;
+			}
+
+			.cta p {
+				color: rgba(255, 255, 255, 0.75);
+			}
+
+			.cta a {
+				margin-top: 1rem;
+				background: white;
+				color: rgb(var(--black));
+			}
+
+			@media (max-width: 800px) {
+				.hero {
+					grid-template-columns: 1fr;
+				}
+
+				.grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+
+		<main>
+			<section class="hero">
+				<div>
+					<span class="badge">Public Blog Platform</span>
+
+					<h1>Read ideas that actually stay with you.</h1>
+
+					<p>
+						Discover approved blogs from creators, developers, thinkers, and storytellers.
+						Like what you love, comment your thoughts, and share the good stuff forward.
+					</p>
+
+					<div class="actions">
+						<a class="btn primary" href="/blog">Explore Blogs</a>
+						<a class="btn secondary" href="/blog">Latest Articles</a>
+					</div>
+				</div>
+
+				<aside class="preview-card">
+					<div class="image"><img src="https://res.cloudinary.com/dp7ksf2mb/image/upload/v1780380220/Screenshot_from_2026-06-02_11-31-48_rh7utv.png" alt=""></div>
+					<h3>Featured reads, cleanly curated.</h3>
+					<p>
+						Only approved posts appear here, so readers get a cleaner and more trusted blog experience.
+					</p>
+				</aside>
+			</section>
+
+			<section class="grid">
+				<div class="feature">
+					<h5><Book/> Read</h5>
+					<p>Browse public blogs with clean layouts and fast loading pages.</p>
+				</div>
+
+				<div class="feature">
+					<h5><Heart/> React</h5>
+					<p>Like blogs and show writers which articles people enjoy most.</p>
+				</div>
+
+				<div class="feature">
+					<h5><MessageCircle/> Discuss</h5>
+					<p>Comment on posts and join simple conversations around ideas.</p>
+				</div>
+
+				<div class="feature">
+					<h5><Share/> Share</h5>
+					<p>Share articles through WhatsApp, copy link, or native browser sharing.</p>
+				</div>
+
+				<div class="feature">
+					<h5><Shield/> Curated</h5>
+					<p>Blogs are moderated before going public, keeping the feed cleaner.</p>
+				</div>
+
+				<div class="feature">
+					<h5><Zap/> Fast</h5>
+					<p>Built with Astro for a lightweight public reading experience.</p>
+				</div>
+			</section>
+
+			<section class="cta">
+				<h2>Start exploring fresh stories.</h2>
+				<p>
+					Jump into the blog feed and find something worth reading today.
+				</p>
+				<a class="btn" href="/blog">Browse Blogs →</a>
+			</section>
+		</main>
+
+		<Footer />
+	</body>
+</html>
