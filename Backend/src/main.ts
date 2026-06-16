@@ -17,8 +17,8 @@ async function bootstrap() {
         "http://localhost:4321",
         "http://localhost:5173",
         "http://localhost:3000",
-        "https://public-blog-web.vercel.app/",
-        "https://midiator-penal.vercel.app/",
+        "https://public-blog-web.vercel.app",
+        "https://midiator-penal.vercel.app",
         "https://blog-managment-project.vercel.app"
       ],
       credentials: true,
