@@ -1,5 +1,5 @@
-import { t as typeHandlers, j as types, A as AstroError, N as NoImageMetadata, i as isRemoteAllowed, F as FailedToFetchRemoteImageDimensions, R as RemoteImageNotAllowed, k as removeQueryString, l as joinPaths, E as ExpectedImage, a as isRemotePath, L as LocalImageUsedWrongly, M as MissingImageDimension, n as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, o as UnsupportedImageConversion, p as InvalidImageService, q as ExpectedImageOptions, v as ExpectedNotESMImage, w as ImageMissingAlt, m as maybeRenderHead, e as addAttribute, s as spreadAttributes, c as renderTemplate, x as FontFamilyNotFound, u as unescapeHTML, y as MissingGetFontFileRequestUrl } from './entrypoint_-Gqi4B_L.mjs';
-import { D as DEFAULT_OUTPUT_FORMAT, a as VALID_SUPPORTED_FORMATS, b as DEFAULT_HASH_PROPS, c as createComponent } from './consts_CITKBvpJ.mjs';
+import { t as typeHandlers, j as types, A as AstroError, N as NoImageMetadata, i as isRemoteAllowed, F as FailedToFetchRemoteImageDimensions, R as RemoteImageNotAllowed, k as removeQueryString, l as joinPaths, E as ExpectedImage, a as isRemotePath, L as LocalImageUsedWrongly, M as MissingImageDimension, n as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, o as UnsupportedImageConversion, p as InvalidImageService, q as ExpectedImageOptions, v as ExpectedNotESMImage, w as ImageMissingAlt, m as maybeRenderHead, e as addAttribute, s as spreadAttributes, c as renderTemplate, x as FontFamilyNotFound, u as unescapeHTML, y as MissingGetFontFileRequestUrl } from './entrypoint_CTYKeECl.mjs';
+import { D as DEFAULT_OUTPUT_FORMAT, a as VALID_SUPPORTED_FORMATS, b as DEFAULT_HASH_PROPS, c as createComponent } from './consts_DHlhKIrH.mjs';
 import * as mime from 'mrmime';
 import 'clsx';
 import 'piccolore';
@@ -595,7 +595,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp_Xh2YXPw6.mjs'
+      './sharp_ClDj6ipO.mjs'
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;

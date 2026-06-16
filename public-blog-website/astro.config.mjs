@@ -4,11 +4,11 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import { defineConfig, fontProviders } from 'astro/config';
-import vercel from '@astrojs/vercel';
+import vercelAdapter from '@astrojs/vercel';
 
 export default defineConfig({
 	output: 'server',
-	adapter: vercel(),
+	adapter: vercelAdapter(),
 	site: 'https://public-website-topaz-kappa.vercel.app',
 	integrations: [mdx(), sitemap(), react()],
 	fonts: [

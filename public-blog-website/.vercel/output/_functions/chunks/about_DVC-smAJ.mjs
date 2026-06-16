@@ -1,9 +1,9 @@
-import { c as createComponent } from './consts_CITKBvpJ.mjs';
+import { c as createComponent } from './consts_DHlhKIrH.mjs';
 import 'piccolore';
-import { r as renderComponent, b as renderHead, c as renderTemplate, d as renderSlot, m as maybeRenderHead } from './entrypoint_-Gqi4B_L.mjs';
-import { $ as $$Image } from './_astro_assets_DiZvsXHK.mjs';
-import { $ as $$BaseHead, a as $$Header, b as $$Footer } from './Header_CaHWjbKu.mjs';
-import { $ as $$FormattedDate } from './FormattedDate_DHAqZ_-e.mjs';
+import { r as renderComponent, b as renderHead, c as renderTemplate, d as renderSlot, m as maybeRenderHead } from './entrypoint_CTYKeECl.mjs';
+import { $ as $$Image } from './_astro_assets_CeBSuiHE.mjs';
+import { $ as $$BaseHead, a as $$Header, b as $$Footer } from './Header_AgDkbsqa.mjs';
+import { $ as $$FormattedDate } from './FormattedDate_Cq5vz-kC.mjs';
 
 const AboutHeroImage = new Proxy({"src":"/_astro/blog-placeholder-about.BtEdEmGp.jpg","width":960,"height":480,"format":"jpg"}, {
 						get(target, name, receiver) {
