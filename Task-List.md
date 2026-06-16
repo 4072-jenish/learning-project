@@ -1,4 +1,5 @@
 # Blog Platform Project Task Board
+Tech for that project learning Docs - "https://github.com/4072-jenish/nest-learning-documentation"
 
 ## ✅ Completed Tasks
 
