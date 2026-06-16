@@ -8,7 +8,9 @@ import vercelAdapter from '@astrojs/vercel';
 
 export default defineConfig({
 	output: 'server',
-	adapter: vercelAdapter(),
+	adapter: vercelAdapter({
+		imageService : true,
+	}),
 	site: 'https://public-website-topaz-kappa.vercel.app',
 	integrations: [mdx(), sitemap(), react()],
 	fonts: [
