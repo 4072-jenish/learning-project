@@ -39,13 +39,13 @@ export class AuthController {
     };
   }
 
-  @Post('sendOtp')
-  sendOtp(@Body() body: SendOtpDto) {
-    return this.authService.sendOtpEmail(body.email);
-  }
+  // @Post('sendOtp')
+  // sendOtp(@Body() body: SendOtpDto) {
+  //   return this.authService.sendOtpEmail(body.email);
+  // }
 
-  @Post('verifyOtp')
-  verifyOtp(@Body() body: VerifyOtpDto) {
-    return this.authService.verifyOtp(body);
-  }
+  // @Post('verifyOtp')
+  // verifyOtp(@Body() body: VerifyOtpDto) {
+  //   return this.authService.verifyOtp(body);
+  // }
 }
