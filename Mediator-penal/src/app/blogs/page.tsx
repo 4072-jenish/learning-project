@@ -13,6 +13,8 @@ export default function BlogsPage() {
   const { blogs, loading, error } = useSelector((state: RootState) => state.blog);
 
   useEffect(() => {
+    console.log(process.env.NEXT_PUBLIC_API_BASE_URL);
+    
     dispatch(fetchBlogs());
   }, [dispatch]);
 
