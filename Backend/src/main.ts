@@ -19,7 +19,7 @@ async function bootstrap() {
         "http://localhost:3000",
         "https://public-blog-web.vercel.app",
         "https://midiator-penal.vercel.app",
-        "https://blog-managment-project.vercel.app"
+        "https://blog-admin-panel-rho.vercel.app/"
       ],
       credentials: true,
     },
