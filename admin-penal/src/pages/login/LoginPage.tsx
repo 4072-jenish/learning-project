@@ -34,8 +34,8 @@ const LoginPage: FC = () => {
       setError("");
       const response: ILoginResponse = await loginAdmin(formData);
 
-      localStorage.setItem("token", response.token);
       if (response.user.role === "admin") {
+        localStorage.setItem("token", response.token);
         localStorage.setItem("admin", JSON.stringify(response.user));
         navigate("/dashboard");
       } else {
