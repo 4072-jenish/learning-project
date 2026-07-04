@@ -1,18 +1,22 @@
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { Edit, Plus, Trash2 } from "lucide-react";
+import { Check, Edit, FileText, Plus, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 import type { IBlog } from "@/types";
 import { useBlog } from "@/hooks/useBlog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn, formatDate, getInitials } from "@/lib/utils";
+import StatusBadge from "./StatusBadge";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import {
   Table,
@@ -33,7 +37,6 @@ interface BlogTablePageProps {
   type: BlogPageType;
   showAddButton?: boolean;
 }
-
 
 const BlogTablePage: FC<BlogTablePageProps> = ({
   title,
@@ -82,7 +85,8 @@ const BlogTablePage: FC<BlogTablePageProps> = ({
     content: "",
   });
 
-  const normalBlogs: IBlog[] = (type === "all"
+  const normalBlogs: IBlog[] =
+    (type === "all"
       ? allBlogs
       : type === "pending"
         ? pendingBlogs
@@ -90,9 +94,7 @@ const BlogTablePage: FC<BlogTablePageProps> = ({
           ? approvedBlogs
           : rejectedBlogs) ?? [];
 
-  const blogs: IBlog[] = search.trim()
-    ? searchedBlogs
-    : normalBlogs;
+  const blogs: IBlog[] = search.trim() ? searchedBlogs : normalBlogs;
 
   useEffect(() => {
     fetchBlogs();
@@ -156,16 +158,19 @@ const BlogTablePage: FC<BlogTablePageProps> = ({
     toast.error("Blog rejected");
     refreshAfterStatusChange();
   };
+
   return (
     <div className="space-y-6 text-left">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h3 className="text-2xl font-bold sm:text-3xl">{title}</h3>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            {title}
+          </h1>
           <p className="text-sm text-muted-foreground sm:text-base">
             {description}
           </p>
         </div>
-      
+
         {showAddButton && (
           <Button onClick={handleAdd} className="w-full gap-2 sm:w-auto">
             <Plus className="h-4 w-4" />
@@ -174,99 +179,130 @@ const BlogTablePage: FC<BlogTablePageProps> = ({
         )}
       </div>
 
-      <div className="overflow-hidden rounded-xl border bg-card">
-        <SearchBar
-          value={search}
-          onChange={setSearch}
-        />
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Author</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
+      <div className="overflow-hidden rounded-2xl border bg-card shadow-sm">
+        <div className="flex flex-col gap-3 border-b p-4 sm:flex-row sm:items-center sm:justify-between">
+          <SearchBar value={search} onChange={setSearch} />
+          <span className="text-sm text-muted-foreground">
+            {loading ? "Loading…" : `${blogs.length} blog${blogs.length === 1 ? "" : "s"}`}
+          </span>
+        </div>
 
-          <TableBody>
-            {loading ? (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center">
-                  Loading blogs...
-                </TableCell>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/40 hover:bg-muted/40">
+                <TableHead className="w-16">ID</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Author</TableHead>
+                <TableHead>Created</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
-            ) : blogs.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center">
-                  No blogs found
-                </TableCell>
-              </TableRow>
-            ) : (
-              blogs.map((blog: IBlog) => (
-                <TableRow key={blog.id}>
-                  <TableCell>{blog.id}</TableCell>
-                  <TableCell className="max-w-[14rem] whitespace-normal break-words">
-                    {blog.title}
-                  </TableCell>
-                  <TableCell>{blog.author?.name || "-"}</TableCell>
-                  <TableCell>
-                    {blog.createdAt
-                      ? new Date(blog.createdAt).toLocaleDateString()
-                      : "-"}
-                  </TableCell>
+            </TableHeader>
 
-                  <TableCell>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Badge>{blog.status}</Badge>
-
-                      {blog.status !== "approved" && (
-                        <Button
-                          size="sm"
-                          onClick={() => handleApprove(blog.id)}
-                        >
-                          Approve
-                        </Button>
-                      )}
-
-                      {blog.status !== "rejected" && (
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => handleReject(blog.id)}
-                        >
-                          Reject
-                        </Button>
-                      )}
-                    </div>
-                  </TableCell>
-
-                  <TableCell className="text-right">
-                    <div className="flex flex-wrap items-center justify-end gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleEdit(blog)}
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
-
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => handleDelete(blog.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+            <TableBody>
+              {loading ? (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <TableRow key={i}>
+                    {Array.from({ length: 6 }).map((__, j) => (
+                      <TableCell key={j}>
+                        <Skeleton className="h-5 w-full" />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : blogs.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="h-40">
+                    <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
+                      <FileText className="h-8 w-8 opacity-40" />
+                      <p className="text-sm font-medium">No blogs found</p>
+                      <p className="text-xs">
+                        {search.trim()
+                          ? "Try a different search term."
+                          : "Blogs will appear here once created."}
+                      </p>
                     </div>
                   </TableCell>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+              ) : (
+                blogs.map((blog: IBlog) => (
+                  <TableRow key={blog.id} className="hover:bg-muted/30">
+                    <TableCell className="text-muted-foreground">
+                      #{blog.id}
+                    </TableCell>
+                    <TableCell className="max-w-[18rem]">
+                      <p className="truncate font-medium">{blog.title}</p>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Avatar size="sm">
+                          <AvatarFallback className="bg-primary/10 text-primary">
+                            {getInitials(blog.author?.name)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <span className="text-sm">
+                          {blog.author?.name || "Unknown"}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {formatDate(blog.createdAt)}
+                    </TableCell>
+                    <TableCell>
+                      <StatusBadge status={blog.status} />
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex flex-wrap items-center justify-end gap-1.5">
+                        {blog.status !== "approved" && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="gap-1 text-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-600 dark:text-emerald-400"
+                            onClick={() => handleApprove(blog.id)}
+                          >
+                            <Check className="h-4 w-4" />
+                            <span className="hidden sm:inline">Approve</span>
+                          </Button>
+                        )}
+
+                        {blog.status !== "rejected" && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="gap-1 text-rose-600 hover:bg-rose-500/10 hover:text-rose-600 dark:text-rose-400"
+                            onClick={() => handleReject(blog.id)}
+                          >
+                            <X className="h-4 w-4" />
+                            <span className="hidden sm:inline">Reject</span>
+                          </Button>
+                        )}
+
+                        <Button
+                          size="icon-sm"
+                          variant="outline"
+                          aria-label="Edit blog"
+                          onClick={() => handleEdit(blog)}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+
+                        <Button
+                          size="icon-sm"
+                          variant="destructive"
+                          aria-label="Delete blog"
+                          onClick={() => handleDelete(blog.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       <Dialog
@@ -279,24 +315,36 @@ const BlogTablePage: FC<BlogTablePageProps> = ({
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>{selectedBlog ? "Edit Blog" : "Add Blog"}</DialogTitle>
+            <DialogDescription>
+              {selectedBlog
+                ? "Update the blog details below."
+                : "Fill in the details to create a new blog post."}
+            </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              placeholder="Blog title"
-              value={formData.title}
-              onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-            />
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">Title</label>
+              <Input
+                placeholder="Blog title"
+                value={formData.title}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
+              />
+            </div>
 
-            <Textarea
-              placeholder="Blog content"
-              value={formData.content}
-              onChange={(e) =>
-                setFormData({ ...formData, content: e.target.value })
-              }
-            />
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">Content</label>
+              <Textarea
+                placeholder="Blog content"
+                className={cn("min-h-32")}
+                value={formData.content}
+                onChange={(e) =>
+                  setFormData({ ...formData, content: e.target.value })
+                }
+              />
+            </div>
 
             <Button type="submit" className="w-full">
               {selectedBlog ? "Update Blog" : "Create Blog"}
