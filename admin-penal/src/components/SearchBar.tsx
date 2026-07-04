@@ -15,7 +15,7 @@ export default function SearchBar({
   onSearch,
 }: Props) {
   return (
-    <div className="relative w-full max-w-md mt-3 ms-3">
+    <div className="relative w-full max-w-md">
       <Search
         className="
           absolute
