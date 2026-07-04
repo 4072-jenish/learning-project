@@ -9,9 +9,8 @@ import type { IUser } from "@/types";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn, formatDate, getInitials } from "@/lib/utils";
+import { avatarGradient, cn, formatDate, getInitials } from "@/lib/utils";
 import StatusBadge from "@/components/StatusBadge";
 import {
   Dialog,
@@ -169,12 +168,22 @@ const UsersPage: FC = () => {
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/40 hover:bg-muted/40">
-                <TableHead>User</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+              <TableRow className="border-b bg-muted/30 hover:bg-muted/30">
+                <TableHead className="py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  User
+                </TableHead>
+                <TableHead className="py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Role
+                </TableHead>
+                <TableHead className="py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Status
+                </TableHead>
+                <TableHead className="py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Created
+                </TableHead>
+                <TableHead className="py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Actions
+                </TableHead>
               </TableRow>
             </TableHeader>
 
@@ -183,7 +192,7 @@ const UsersPage: FC = () => {
                 Array.from({ length: 5 }).map((_, i) => (
                   <TableRow key={i}>
                     {Array.from({ length: 5 }).map((__, j) => (
-                      <TableCell key={j}>
+                      <TableCell key={j} className="py-4">
                         <Skeleton className="h-5 w-full" />
                       </TableCell>
                     ))}
@@ -193,40 +202,48 @@ const UsersPage: FC = () => {
                 <TableRow>
                   <TableCell colSpan={5} className="h-40">
                     <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
-                      <UsersIcon className="h-8 w-8 opacity-40" />
+                      <div className="flex size-12 items-center justify-center rounded-full bg-muted">
+                        <UsersIcon className="h-6 w-6 opacity-50" />
+                      </div>
                       <p className="text-sm font-medium">No users found</p>
                     </div>
                   </TableCell>
                 </TableRow>
               ) : (
                 users.map((user: IUser) => (
-                  <TableRow key={user.id} className="hover:bg-muted/30">
-                    <TableCell>
+                  <TableRow
+                    key={user.id}
+                    className="group border-b border-border/60 transition-colors hover:bg-primary/[0.04]"
+                  >
+                    <TableCell className="py-4">
                       <div className="flex items-center gap-3">
-                        <Avatar>
-                          <AvatarFallback className="bg-primary/10 text-primary">
-                            {getInitials(user.name)}
-                          </AvatarFallback>
-                        </Avatar>
+                        <span
+                          className={cn(
+                            "flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-sm font-semibold text-white shadow-sm",
+                            avatarGradient(user.name)
+                          )}
+                        >
+                          {getInitials(user.name)}
+                        </span>
                         <div className="min-w-0 leading-tight">
-                          <p className="truncate font-medium">{user.name}</p>
+                          <p className="truncate font-semibold">{user.name}</p>
                           <p className="truncate text-xs text-muted-foreground">
                             {user.email}
                           </p>
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="py-4">
                       <RoleBadge role={user.role} />
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="py-4">
                       <StatusBadge status={user.status} />
                     </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
+                    <TableCell className="py-4 text-sm text-muted-foreground">
                       {formatDate(user.createdAt)}
                     </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex flex-wrap items-center justify-end gap-1.5">
+                    <TableCell className="py-4 text-right">
+                      <div className="flex flex-wrap items-center justify-end gap-1.5 opacity-90 transition-opacity group-hover:opacity-100">
                         {user.status !== "approved" && (
                           <Button
                             size="sm"

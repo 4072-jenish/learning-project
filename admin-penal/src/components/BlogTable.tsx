@@ -7,9 +7,8 @@ import { useBlog } from "@/hooks/useBlog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn, formatDate, getInitials } from "@/lib/utils";
+import { avatarGradient, cn, formatDate, getInitials } from "@/lib/utils";
 import StatusBadge from "./StatusBadge";
 import {
   Dialog,
@@ -190,13 +189,25 @@ const BlogTablePage: FC<BlogTablePageProps> = ({
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/40 hover:bg-muted/40">
-                <TableHead className="w-16">ID</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Author</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+              <TableRow className="border-b bg-muted/30 hover:bg-muted/30">
+                <TableHead className="w-16 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  ID
+                </TableHead>
+                <TableHead className="py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Title
+                </TableHead>
+                <TableHead className="py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Author
+                </TableHead>
+                <TableHead className="py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Created
+                </TableHead>
+                <TableHead className="py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Status
+                </TableHead>
+                <TableHead className="py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Actions
+                </TableHead>
               </TableRow>
             </TableHeader>
 
@@ -205,7 +216,7 @@ const BlogTablePage: FC<BlogTablePageProps> = ({
                 Array.from({ length: 5 }).map((_, i) => (
                   <TableRow key={i}>
                     {Array.from({ length: 6 }).map((__, j) => (
-                      <TableCell key={j}>
+                      <TableCell key={j} className="py-4">
                         <Skeleton className="h-5 w-full" />
                       </TableCell>
                     ))}
@@ -215,7 +226,9 @@ const BlogTablePage: FC<BlogTablePageProps> = ({
                 <TableRow>
                   <TableCell colSpan={6} className="h-40">
                     <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
-                      <FileText className="h-8 w-8 opacity-40" />
+                      <div className="flex size-12 items-center justify-center rounded-full bg-muted">
+                        <FileText className="h-6 w-6 opacity-50" />
+                      </div>
                       <p className="text-sm font-medium">No blogs found</p>
                       <p className="text-xs">
                         {search.trim()
@@ -227,33 +240,48 @@ const BlogTablePage: FC<BlogTablePageProps> = ({
                 </TableRow>
               ) : (
                 blogs.map((blog: IBlog) => (
-                  <TableRow key={blog.id} className="hover:bg-muted/30">
-                    <TableCell className="text-muted-foreground">
-                      #{blog.id}
+                  <TableRow
+                    key={blog.id}
+                    className="group border-b border-border/60 transition-colors hover:bg-primary/[0.04]"
+                  >
+                    <TableCell className="py-4">
+                      <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 font-mono text-xs font-medium text-muted-foreground">
+                        #{blog.id}
+                      </span>
                     </TableCell>
-                    <TableCell className="max-w-[18rem]">
-                      <p className="truncate font-medium">{blog.title}</p>
+                    <TableCell className="max-w-[20rem] py-4">
+                      <p className="truncate font-semibold text-foreground">
+                        {blog.title}
+                      </p>
+                      {blog.content && (
+                        <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                          {blog.content}
+                        </p>
+                      )}
                     </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Avatar size="sm">
-                          <AvatarFallback className="bg-primary/10 text-primary">
-                            {getInitials(blog.author?.name)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span className="text-sm">
+                    <TableCell className="py-4">
+                      <div className="flex items-center gap-2.5">
+                        <span
+                          className={cn(
+                            "flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-xs font-semibold text-white shadow-sm",
+                            avatarGradient(blog.author?.name)
+                          )}
+                        >
+                          {getInitials(blog.author?.name)}
+                        </span>
+                        <span className="text-sm font-medium">
                           {blog.author?.name || "Unknown"}
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
+                    <TableCell className="py-4 text-sm text-muted-foreground">
                       {formatDate(blog.createdAt)}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="py-4">
                       <StatusBadge status={blog.status} />
                     </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex flex-wrap items-center justify-end gap-1.5">
+                    <TableCell className="py-4 text-right">
+                      <div className="flex flex-wrap items-center justify-end gap-1.5 opacity-90 transition-opacity group-hover:opacity-100">
                         {blog.status !== "approved" && (
                           <Button
                             size="sm"
