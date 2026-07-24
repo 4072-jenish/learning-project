@@ -5,6 +5,7 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
+console.log(import.meta.env.PUBLIC_API_BASE_URL);
 const res = await fetch(`${import.meta.env.PUBLIC_API_BASE_URL}blog/`);
 const data = await res.json();
 
